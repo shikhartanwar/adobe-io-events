@@ -205,7 +205,7 @@ The `Exists` operator only works on leaf nodes (final field values) and does not
 
 ## Webhook FAQ
 
-### What happens if my webhook is down? Why is my event registration marked as `Unstable`?
+### What happens if my webhook is down? Why is my event registration marked as `Unstable`/`Disabled`?
 
 If your webhook is down, Adobe I/O Events retries delivery (see details below). Your event registration may be marked as `Unstable`.
 
