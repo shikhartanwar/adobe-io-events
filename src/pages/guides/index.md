@@ -13,9 +13,6 @@ title: Introduction to Adobe I/O Events Webhooks
 description: With Adobe I/O Events webhooks, your application can sign up to be notified whenever certain events occur. For example, when a user uploads an asset, this action generates an event. With the right webhook in place, your application is instantly notified that this event happened.
 ---
 
-import RetryDoc from '../common/retry-doc.md'
-import ReceivingEventsForUsersDoc from '../common/receiving-events-for-users-doc.md'
-
 # Introduction to Adobe I/O Events Webhooks
 
 With Adobe I/O Events webhooks, your application can sign up to be notified whenever certain events occur.
@@ -196,7 +193,7 @@ If you made an error transcribing the webhook URL, Adobe I/O Events' test of you
 
 In general, `Adobe I/O Events` will always confirm that your webhook received an event by means of the response code your webhook sends to each HTTP POST request.
 
-<RetryDoc/>
+<Fragment src="../common/retry-doc.md"/>
 
 To restart the flow of requests, fix the problem preventing your webhook from responding.
 Then, log into the `Adobe Developer Console` and edit your events registration.
@@ -278,7 +275,7 @@ To ensure reliable operation and avoid unexpected state transitions:
 4. **Monitor Registration Status via API**: Use the [Adobe I/O Events GetRegistrationById API](https://developer.adobe.com/events/docs/api#operation/getRegistrationById) to periodically check your registration status (**Active**, **Unstable**, **Disabled**) and trigger alerts when the status changes to **Unstable** or **Disabled**, allowing you to react before the impact grows.
 5. **Plan for Manual Recovery**: Document your process for re-enabling `Disabled` registrations, as this requires manual intervention through Developer Console.
 
-<ReceivingEventsForUsersDoc/>
+<Fragment src="../common/receiving-events-for-users-doc.md"/>
 
 ## Security Considerations
 

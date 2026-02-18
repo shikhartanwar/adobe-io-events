@@ -10,7 +10,7 @@ If `Adobe I/O Events` fails to receive a successful response code from your webh
 Please note that if an event delivery fails with a response status code of [429 Too Many Requests](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429), or with any response status code in the range of 500 to 599 except for [505 HTTP Version Not Supported](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/505), then those events are retried. Events that fail with any other response status codes are **not retried**.
 
 Each event has an independent retry lifecycle. `Adobe I/O Events` retries delivery to your webhook for up to **24 hours** using exponential and fixed backoff strategies. The first retry is attempted after 1 minute and the period between retries doubles after each attempt, but is at most 15 minutes (see below table outlining the retry pattern).
-<br/>
+\<br/\>
 
 | Retry Attempt        | 1  | 2  | 3  | 4  | 5   | 6   | 7   | ... |
 |----------------------|----|----|----|----|-----|-----|-----|-----|
