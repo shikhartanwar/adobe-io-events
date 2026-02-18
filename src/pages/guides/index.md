@@ -214,11 +214,9 @@ Note: While your event registration is marked `Disabled`, Adobe will continue to
 When an event registration is disabled automatically due to delivery failures, the following behavior applies:
 
 - **New events** are not delivered to your event registration while the registration is disabled.
-- **Scheduled retry attempts** that were queued before the registration was disabled will execute if they remain within their 24-hour retry window.
-- **Retry windows continue aging** for all events. Disabling a registration does not pause or reset the retry lifecycle for any event.
+- **Scheduled retry attempts** that were scheduled before the registration was disabled will execute if they remain within their 24-hour retry window. Disabling does not cancel these scheduled attempts.
+- **Retry windows continue aging** for each event individually. Disabling a registration does not pause or reset the retry lifecycle for any event.
 - Events are still logged to your Journal for 7 days, allowing you to retrieve them using the [Journaling API](../guides/journaling-intro.md).
-
-**Important:** Disabling a registration does not immediately purge the retry queue or cancel pending retry attempts. Retry attempts that were already scheduled will be delivered if they fall within their retry window.
 
 **Note:** The same behavior applies if you delete an event registration that has scheduled retry attempts. Scheduled retries will continue to execute until their retry windows expire.
 
@@ -241,7 +239,7 @@ Consider an event that failed initial delivery at 10:00 AM on Day 1, with retrie
 When you re-enable a disabled registration:
 
 - **New events** will be delivered to your webhook going forward.
-- **Retry lifecycle is not reset** for events that were already in the retry queue.
+- **Retry lifecycle is not reset** for events that were already being retried.
 - **Expired retries are not recreated**. If an event's retry window has expired, that event will not be retried.
 - **Scheduled retries** that are still within their 24-hour window will execute after re-enabling.
 
