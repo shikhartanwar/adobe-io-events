@@ -262,7 +262,7 @@ For registrations with inconsistent delivery patterns:
 - A registration in `Unstable` state may remain there indefinitely if neither the 80% success nor 80% failure threshold is consistently met
 - This is expected behavior - the registration is genuinely unstable
 
-### Recommendations
+### Best Practices
 
 To ensure reliable operation and avoid unexpected state transitions:
 
