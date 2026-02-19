@@ -220,20 +220,6 @@ When an event registration is disabled automatically due to delivery failures, t
 
 **Note:** The same behavior applies if you delete an event registration that has scheduled retry attempts. Scheduled retries will continue to execute until their retry windows expire.
 
-#### Timeline Example
-
-Consider an event that failed initial delivery at 10:00 AM on Day 1, with retries scheduled at 10:01 AM, 10:03 AM, 10:07 AM, 10:15 AM, etc.:
-
-- **Scenario 1:** Registration disabled at 10:02 AM on Day 1 (shortly after initial failure)
-    - Already-scheduled retries (10:03 AM, 10:07 AM, 10:15 AM, etc.) will execute.
-    - The event's 24-hour retry window expires at 10:00 AM on Day 2.
-    - If you re-enable the registration at 11:00 AM on Day 1, scheduled retries will continue to execute until 10:00 AM on Day 2.
-
-- **Scenario 2:** Registration disabled at 9:30 AM on Day 2 (23.5 hours after initial failure)
-    - The event's retry window expires at 10:00 AM on Day 2 (30 minutes later).
-    - If you re-enable the registration at 10:30 AM on Day 2, this event will NOT be retried because its 24-hour window has expired.
-    - You must use the Journaling API to retrieve this event.
-
 ### Re-enabling a Registration
 
 When you re-enable a disabled registration:
@@ -243,8 +229,7 @@ When you re-enable a disabled registration:
 - **Expired retries are not recreated**. If an event's retry window has expired, that event will not be retried.
 - **Scheduled retries** that are still within their 24-hour window will execute after re-enabling.
 
-**Important:** Re-enabling a registration is not a replay mechanism. It does not restart the retry lifecycle for events that failed while the registration was disabled.
-To retrieve events that were not delivered, use the [Journaling API](../guides/journaling-intro.md) to fetch events from the past 7 days.
+**Important:** To retrieve events that were not delivered (including those whose retry windows expired while disabled), use the [Journaling API](../guides/journaling-intro.md) to fetch events from the past 7 days.
 
 ### Known Limitations and Edge Cases
 
@@ -252,7 +237,7 @@ To retrieve events that were not delivered, use the [Journaling API](../guides/j
 
 If your event registration receives fewer than 10 delivery attempts in the evaluation window:
 - State evaluation may not occur even when individual events reach retry milestones
-- The registration may skip the `Unstable` state and transition directly from `Active` to `Disabled`
+- The registration may skip the `Unstable` state and transition directly from `Active` to `Disabled`, because the evaluation window of the `Disabled` state is 24 hours, thus it can gather more data points with respect to the 30 minutes evaluation window of the `Unstable` state.
 
 **Mixed Success/Failure Patterns**
 
@@ -264,7 +249,7 @@ For registrations with inconsistent delivery patterns:
 
 To ensure reliable operation and avoid unexpected state transitions:
 
-1. **Monitor Your Webhook Endpoint Health**: Don't rely solely on Adobe I/O Events state notifications. Implement your own monitoring of:
+1. **Monitor Your Webhook Endpoint Health**: Don't rely solely on Adobe I/O Events email state change notifications. Implement your own monitoring of:
    - Delivery success rates
    - Response times
    - Error patterns
